@@ -15,6 +15,6 @@ export class ApiService {
   ) { }
 
   getNombreDelServicio() {
-    return this.http.get<attachment[]>('../../../assets/test.json');
+    return this.http.get<attachment[]>('assets/test.json');
   }
 }
