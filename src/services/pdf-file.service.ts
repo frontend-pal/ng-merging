@@ -65,11 +65,19 @@ export class PdfFileService {
     return (await mergedPdf.save()).buffer;
   }
 
-  saveFile(data: any){
+  saveFile(data: any) {
     console.log("entre");
     const blob = this.ArrayBufferBlob(data);
     const file = new Blob([blob], { type: 'application/pdf' });
 
     fileSaver.saveAs(file, 'nombrequeparezca.pdf');
+  }
+
+  showFile(data: any) {
+    const blob = this.ArrayBufferBlob(data);
+    const file = new Blob([blob], { type: 'application/pdf' });
+    const fileURL = URL.createObjectURL(file);
+
+    window.open(fileURL);
   }
 }
