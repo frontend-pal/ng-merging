@@ -36,14 +36,15 @@ export class AppComponent {
 
     const arrayBufferArray: any[] = ArrayAttach.map(arrayBuff => {
         return this.fileService.base64ToArrayBuffer(arrayBuff);
-    })
+    });
     
     console.log(arrayBufferArray);
 
     this.fileService.mergePdfs(arrayBufferArray).then(res => {
       console.log(res);
-      this.fileService.saveFile(res);
+      this.fileService.showFile(res);
     });
+    console.log(" aqui pasa algo");
   }
 
 }

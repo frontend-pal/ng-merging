@@ -1,7 +1,7 @@
 import * as fileSaver from 'file-saver';
 import { Injectable } from '@angular/core';
 import { attachment } from './api.service';
-import { PDFDocument, PDFPage } from "pdf-lib";
+import { PDFDocument, PDFPage } from 'pdf-lib';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { PDFDocument, PDFPage } from "pdf-lib";
 export class PdfFileService {
 
   constructor() {
-    // window.unescape = window.unescape || window.decodeURI;
+
   }
 
   /**
@@ -21,6 +21,15 @@ export class PdfFileService {
     return attachFile?.onBase64?.split(',').pop() || '';
   }
 
+
+  /**
+   * 
+   * @param data Generic to transform ArrayBuffer to Blob Files
+   * @return Blob
+   */
+  ArrayBufferBlob(data: any) {
+    return new Blob([data]);
+  }
 
   /**
    * 
@@ -39,10 +48,12 @@ export class PdfFileService {
     return bytes.buffer;
   }
 
-  ArrayBufferBlob(data: any) {
-    return new Blob([data]);
-  }
 
+  /**
+   * 
+   * @param pdfsToMerge Merge ArrayBuffer[] to an unique ArrayBufferLike
+   * @returns Promise<ArrayBufferLike>
+   */
   async mergePdfs(pdfsToMerge: ArrayBuffer[]): Promise<ArrayBufferLike> {
     const mergedPdf: PDFDocument = await PDFDocument.create();
     const createInnerPromise = async (arrayBuffer: ArrayBuffer): Promise<PDFPage[]> => {
@@ -65,14 +76,21 @@ export class PdfFileService {
     return (await mergedPdf.save()).buffer;
   }
 
+  /**
+   * 
+   * @param data Generic to save Blob Files
+   */
   saveFile(data: any) {
-    console.log("entre");
     const blob = this.ArrayBufferBlob(data);
     const file = new Blob([blob], { type: 'application/pdf' });
 
     fileSaver.saveAs(file, 'nombrequeparezca.pdf');
   }
 
+  /**
+   * 
+   * @param data Generic to show Blob Files
+   */
   showFile(data: any) {
     const blob = this.ArrayBufferBlob(data);
     const file = new Blob([blob], { type: 'application/pdf' });
